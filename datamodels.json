@@ -1,0 +1,32 @@
+
+[{
+    "user_id": "string",
+    "name": "string",
+    "age": "int", 
+    "dob": "string",
+    "city": "string",
+    "country": "string",
+    "county": "string",
+    "bio": "string",
+    "phone": "string",
+    "email": "string",
+    "role": "string",
+    "address": "string",
+    "own_listings": "array<list_id>",
+    "invest_listings": "array<list_id>",
+    "messages": "array<string>"
+},{
+    "list_id": "string",
+    "is_listing": "bool",
+    "host": "user_id",
+    "investors": "array<user_id>",
+    "currVal": "float64",
+    "goalVal": "float64",
+    "expiry": "date",
+    "type": "string"
+},{
+    "post_id": "string",
+    "poster": "user_id",
+    "numlikes": "int"
+}]
+
