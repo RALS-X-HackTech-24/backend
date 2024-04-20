@@ -21,7 +21,24 @@ payments.post('/createCampaign', async(req, res) => {
 })
 
 payments.post('/checkout', async (req, res) => {
-  
+  const price = await stripe.prices.create({
+    currency: 'usd',
+    unit_amount: req.body.amount,
+    product: req.body.productID
+  })
+
+  const session = await stripe.checkout.sessions.create({
+    success_url: 'https://example.com/success',
+    line_items: [
+      {
+        price: price.id,
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+  })
+
+  res.status(200).send({url: session.url})
 })
 
 payments.post('/test', async (req, res) => {
