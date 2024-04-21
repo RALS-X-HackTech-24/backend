@@ -43,9 +43,12 @@ users.post('/getUser', (req, res) => {
 });
 
 // Update a single user
-users.put('/updateUser', (req, res) => {
-  const itemId = req.body.uid;
-  const updatedItem = req.body;
+users.post('/updateUser', (req, res) => {
+  const itemId = req.body.user.uid;
+  const updatedItem = req.body.user;
+  console.log("Reached users REST API!")
+  console.log(updatedItem)
+  console.log(itemId)
   db.collection('users').doc(itemId).update(updatedItem)
     .then(() => res.status(200).json({ message: 'Item updated successfully' }))
     .catch(error => res.status(500).json({ error: error.message }));
