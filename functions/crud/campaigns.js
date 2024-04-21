@@ -2,24 +2,14 @@ const express = require('express');
 const cors = require('cors')
 const admin = require('../firebase')
 
-const users = express()
-users.use(cors({origin: true}))
+const campaigns = express()
+campaigns.use(cors({origin: true}))
 
 db = admin.firestore()
 
-
-users.post('/createUser', async (req, res) => {
-    try{
-        await db.collection('users').doc(req.body.uid).set(req.body)
-        res.status(200).json({message: "user created successfully!"})
-    } catch(error){
-        res.status(500).json(error)
-    }
-})
-
-// Read all the users
-users.get('/getUsers', (req, res) => {
-  db.collection('users').get()
+// Read all documents
+campaigns.get('/getCampaigns', (req, res) => {
+  db.collection('campaigns').get()
     .then(snapshot => {
       const items = [];
       snapshot.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
@@ -28,10 +18,10 @@ users.get('/getUsers', (req, res) => {
     .catch(error => res.status(500).json({ error: error.message }));
 });
 
-// Read a single user
-users.post('/getUser', (req, res) => {
-  const itemId = req.body.uid;
-  db.collection('users').doc(itemId).get()
+// Read a single document
+campaigns.post('/getCampaign', (req, res) => {
+  const itemId = req.body.id;
+  db.collection('campaigns').doc(itemId).get()
     .then(doc => {
       if (!doc.exists) {
         res.status(404).json({ error: 'Item not found' });
@@ -42,21 +32,21 @@ users.post('/getUser', (req, res) => {
     .catch(error => res.status(500).json({ error: error.message }));
 });
 
-// Update a single user
-users.put('/updateUser', (req, res) => {
-  const itemId = req.body.uid;
+// Update a document
+campaigns.put('/updateCampaign', (req, res) => {
+  const itemId = req.body.id;
   const updatedItem = req.body;
-  db.collection('users').doc(itemId).update(updatedItem)
+  db.collection('campaigns').doc(itemId).update(updatedItem)
     .then(() => res.status(200).json({ message: 'Item updated successfully' }))
     .catch(error => res.status(500).json({ error: error.message }));
 });
 
-// Delete a single user
-users.delete('/deleteUser', (req, res) => {
-  const itemId = req.body.uid;
-  db.collection('users').doc(itemId).delete()
+// Delete a document
+campaigns.delete('/deleteCampaign', (req, res) => {
+  const itemId = req.body.id;
+  db.collection('campaigns').doc(itemId).delete()
     .then(() => res.status(200).json({ message: 'Item deleted successfully' }))
     .catch(error => res.status(500).json({ error: error.message }));
 });
 
-exports.users = users
+exports.campaigns = campaigns
