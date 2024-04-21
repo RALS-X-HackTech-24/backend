@@ -28,7 +28,6 @@ payments.post('/createCampaign', async(req, res) => {
     investors: [],
     ts: moment().toISOString(),
     location: req.body.location,
-    tags: req.body.tags,
     expiry: req.body.expiry,
     organizer: req.body.organizer,
     likes: 0,
